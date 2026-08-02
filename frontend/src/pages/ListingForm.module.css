@@ -1,0 +1,135 @@
+/* ============================================================
+   ListingForm.module.css — shared by CreateListing + EditListing
+   ============================================================ */
+
+.page {
+  flex: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-12);
+  width: 100%;
+}
+
+/* ── Back link ───────────────────────────────────────────────── */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  text-decoration: none;
+  margin-bottom: var(--sp-6);
+  transition: color var(--ease-fast);
+}
+.back:hover { color: var(--ink); }
+.back:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; border-radius: 2px; }
+
+/* ── Header ──────────────────────────────────────────────────── */
+.header {
+  margin-bottom: var(--sp-8);
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  margin-bottom: var(--sp-2);
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--graphite);
+}
+
+/* ── Form card ───────────────────────────────────────────────── */
+.formCard {
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-8);
+}
+
+/* ── Form ────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+/* ── Section separator ───────────────────────────────────────── */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.formSectionTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--graphite);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Two-col row ─────────────────────────────────────────────── */
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+/* ── Hint text ───────────────────────────────────────────────── */
+.hint {
+  font-size: var(--text-xs);
+  color: var(--graphite);
+  margin-top: var(--sp-1);
+  line-height: 1.4;
+}
+
+/* ── Actions ─────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--border);
+}
+
+.actions .btn {
+  min-width: 140px;
+  justify-content: center;
+}
+
+/* ── Loading state ───────────────────────────────────────────── */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: var(--sp-3);
+  color: var(--graphite);
+  font-size: var(--text-base);
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .page {
+    padding: var(--sp-5) var(--sp-4) var(--sp-8);
+  }
+
+  .formCard {
+    padding: var(--sp-5);
+  }
+
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions .btn {
+    width: 100%;
+  }
+}

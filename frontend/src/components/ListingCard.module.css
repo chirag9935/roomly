@@ -1,0 +1,153 @@
+/* ============================================================
+   ListingCard.module.css
+   Signature element: 3px left accent bar, widens to 5px on hover,
+   card nudges 2px right. Color tracks listing status.
+   ============================================================ */
+
+.card {
+  position: relative;
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--bar-closed); /* default, overridden by status class */
+  border-radius: var(--radius);
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  text-decoration: none;
+  cursor: default;
+  transition:
+    border-left-width var(--ease-std),
+    transform var(--ease-std),
+    box-shadow var(--ease-std);
+}
+
+.card:hover {
+  border-left-width: 5px;
+  transform: translateX(2px);
+  box-shadow: 0 2px 12px rgba(26, 23, 20, 0.06);
+}
+
+/* Status-coloured left bars */
+.statusActive   { border-left-color: var(--bar-active); }
+.statusInquiry  { border-left-color: var(--bar-inquiry); }
+.statusBooked   { border-left-color: var(--bar-booked); }
+.statusClosed   { border-left-color: var(--bar-closed); }
+
+/* ── Image placeholder ───────────────────────────────────────── */
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--stone);
+  border-radius: calc(var(--radius) - 1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.imagePlaceholderIcon {
+  font-size: 28px;
+  opacity: 0.3;
+}
+
+/* ── Card header row ─────────────────────────────────────────── */
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+/* ── Title ───────────────────────────────────────────────────── */
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.25;
+  flex: 1;
+}
+
+/* ── Price ───────────────────────────────────────────────────── */
+.price {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--rust);
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.25;
+}
+
+.priceSuffix {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--graphite);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ── Meta row ────────────────────────────────────────────────── */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.metaDot {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+/* ── Footer row ──────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--stone);
+}
+
+.viewLink {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--rust);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color var(--ease-fast);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.viewLink:hover { color: var(--rust-hover); }
+.viewLink:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.viewArrow {
+  transition: transform var(--ease-std);
+  display: inline-block;
+}
+
+.card:hover .viewArrow {
+  transform: translateX(3px);
+}

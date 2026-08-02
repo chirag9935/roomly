@@ -1,111 +1,438 @@
+
+/* ============================================================
+   ROOMLY — Global Design System
+   index.css
+
+   Two styling systems are used deliberately in this project:
+   1. Global utility classes (defined below: .btn, .btn-primary,
+      .badge, etc.) — used for small, repeated elements that
+      appear identically across many components.
+   2. CSS Modules (ComponentName.module.css) — used for
+      component-specific layout and one-off styling, scoped
+      automatically to avoid class name collisions.
+   ============================================================ */
+
+/* ── 1. Google Font Import (fallback if not preloaded) ──────── */
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap");
+
+/* ── 2. Design Tokens ────────────────────────────────────────── */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* Palette */
+  --stone: #f2efea; /* page background — whitewashed plaster */
+  --ink: #1a1714; /* headings, brand, primary text */
+  --graphite: #57524d; /* body copy, meta, secondary labels */
+  --chalk: #ffffff; /* card surfaces, input backgrounds */
+  --rust: #c0431a; /* CTAs, price emphasis, accent only */
+  --rust-hover: #a33714; /* rust darkened ~8% for hover */
+  --rust-ghost: rgba(192, 67, 26, 0.08); /* ghost button hover fill */
+  --border: #ddd9d4; /* all borders and dividers */
+  --border-focus: #c0431a; /* focus ring = rust */
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* Status badge colours */
+  --status-active-text: #1a5c38;
+  --status-active-bg: #e8f5ee;
+  --status-inquiry-text: #7a4f00;
+  --status-inquiry-bg: #fff3dc;
+  --status-booked-text: #c0431a;
+  --status-booked-bg: #fbe9e3;
+  --status-closed-text: #4a4845;
+  --status-closed-bg: #ededeb;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Accent bar (listing card signature element) */
+  --bar-active: #1a5c38;
+  --bar-inquiry: #d4930a;
+  --bar-booked: #c0431a;
+  --bar-closed: #b0aca8;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  /* Typography */
+  --font-display: "DM Serif Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  /* Type scale */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 18px;
+  --text-lg: 24px;
+  --text-xl: 36px;
+  --text-brand: 22px;
+
+  /* Spacing (8px base grid) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* Radius */
+  --radius: 4px;
+  --radius-md: 6px;
+
+  /* Transitions */
+  --ease-fast: 0.12s ease;
+  --ease-std: 0.18s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* ── 3. Base Resets ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--graphite);
+  background: var(--stone);
+  min-height: 100svh;
 }
 
+/* ── 4. Root shell ───────────────────────────────────────────── */
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  min-height: 100svh;
+  width: 100%;
 }
 
+/* ── 5. Typography ───────────────────────────────────────────── */
 h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: var(--text-xl);
+  letter-spacing: -0.5px;
 }
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+  font-size: var(--text-lg);
+  letter-spacing: -0.3px;
+}
+h3 {
+  font-size: var(--text-md);
+}
+h4 {
+  font-size: var(--text-base);
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+p {
+  color: var(--graphite);
+  line-height: 1.65;
+}
+
+a {
+  color: var(--rust);
+  text-decoration: none;
+  transition: color var(--ease-fast);
+}
+a:hover {
+  color: var(--rust-hover);
+}
+a:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── 6. Page content wrapper ─────────────────────────────────── */
+.page-wrapper {
+  flex: 1;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6);
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: var(--sp-6) var(--sp-4);
   }
 }
-p {
+
+/* ── 7. Buttons ──────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1;
+  padding: 10px var(--sp-5);
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--ease-fast),
+    color var(--ease-fast),
+    border-color var(--ease-fast);
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+
+/* Primary */
+.btn-primary {
+  background: var(--rust);
+  color: var(--chalk);
+  border-color: var(--rust);
+}
+.btn-primary:hover {
+  background: var(--rust-hover);
+  border-color: var(--rust-hover);
+  color: var(--chalk);
+}
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--rust);
+  border-color: var(--rust);
+}
+.btn-ghost:hover {
+  background: var(--rust-ghost);
+  color: var(--rust-hover);
+}
+.btn-ghost:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Danger (delete/destructive) */
+.btn-danger {
+  background: transparent;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.btn-danger:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+/* Subtle (secondary text actions) */
+.btn-subtle {
+  background: transparent;
+  color: var(--graphite);
+  border-color: var(--border);
+}
+.btn-subtle:hover {
+  background: var(--stone);
+  color: var(--ink);
+}
+
+/* Small variant */
+.btn-sm {
+  font-size: var(--text-sm);
+  padding: 7px 14px;
+}
+
+/* ── 8. Form base ────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--ink);
+  background: var(--chalk);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color var(--ease-fast);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #b0aca8;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--rust);
+  box-shadow: 0 0 0 3px rgba(192, 67, 26, 0.12);
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2357524D' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+/* ── 9. Status badges ────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.badge-active {
+  color: var(--status-active-text);
+  background: var(--status-active-bg);
+}
+.badge-inquiry {
+  color: var(--status-inquiry-text);
+  background: var(--status-inquiry-bg);
+}
+.badge-booked {
+  color: var(--status-booked-text);
+  background: var(--status-booked-bg);
+}
+.badge-closed {
+  color: var(--status-closed-text);
+  background: var(--status-closed-bg);
+}
+.badge-pending {
+  color: var(--status-inquiry-text);
+  background: var(--status-inquiry-bg);
+}
+.badge-responded {
+  color: var(--status-active-text);
+  background: var(--status-active-bg);
+}
+
+/* ── 10. Loading skeleton ────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    #ede9e3 50%,
+    var(--border) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: var(--radius);
+}
+
+/* ── 11. Error message ───────────────────────────────────────── */
+.form-error {
+  font-size: var(--text-sm);
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  line-height: 1.5;
+}
+
+/* ── 12. Section headers ─────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.section-header h2 {
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* ── 13. Divider ─────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--sp-6) 0;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* ── 14. Empty state ─────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: var(--sp-16) var(--sp-8);
+  color: var(--graphite);
+  font-size: var(--text-base);
+}
+
+.empty-state-icon {
+  font-size: 32px;
+  margin-bottom: var(--sp-4);
+  opacity: 0.5;
+}
+
+/* ── 15. Responsive utilities ────────────────────────────────── */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+  }
+  h2 {
+    font-size: 20px;
+  }
 }

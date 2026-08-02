@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { createInquiry } from '../api/inquiries';
+import styles from './Inquiries.module.css';
 
 function SendInquiry() {
   const { listingId } = useParams();
@@ -24,18 +25,48 @@ function SendInquiry() {
   }
 
   return (
-    <div>
-      <h2>Send Inquiry</h2>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          placeholder="Ask a question or express interest in this listing..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" disabled={loading}>{loading ? 'Sending...' : 'Send Inquiry'}</button>
-      </form>
+    <div className={styles.page}>
+      <Link to={`/listings/${listingId}`} className={styles.back}>← Back to listing</Link>
+
+      <div className={styles.pageHeader}>
+        <div>
+          <h1 className={styles.pageTitle}>Send an inquiry</h1>
+          <p className={styles.pageSubtitle}>
+            Introduce yourself and ask the owner anything you'd like to know about this listing.
+          </p>
+        </div>
+      </div>
+
+      <div className={styles.sendCard}>
+        <form className={styles.sendForm} onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <label className="form-label" htmlFor="inquiry-message">Your message</label>
+            <textarea
+              id="inquiry-message"
+              className="form-textarea"
+              placeholder="Hi, I'm interested in this listing. I'm a working professional looking for a room from next month…"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+              style={{ minHeight: '140px' }}
+            />
+          </div>
+
+          {error && <p className="form-error" role="alert">{error}</p>}
+
+          <div className={styles.sendActions}>
+            <button
+              id="send-inquiry-submit-btn"
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Sending…' : 'Send inquiry'}
+            </button>
+            <Link to={`/listings/${listingId}`} className="btn btn-subtle">Cancel</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

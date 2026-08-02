@@ -1,29 +1,43 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
+import api from '../api/axios';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // was hardcoded false — now reflects a real check
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    let cancelled = false;
+
+    async function bootstrap() {
+      try {
+        const { data } = await api.get('/auth/me');
+        if (!cancelled) setUser(data.user);
+      } catch {
+        if (!cancelled) setUser(null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
-    setLoading(false);
+
+    bootstrap();
+    return () => { cancelled = true; };
   }, []);
 
-  function login(userData, token) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
+  // Called after a successful /auth/login or /auth/signup response.
+  // The server has already set the auth cookies — we just need the user in state.
+  function login(userData) {
     setUser(userData);
   }
 
-  function logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setUser(null);
+  async function logout() {
+    try {
+      await api.post('/auth/logout');
+    } finally {
+      setUser(null);
+    }
   }
 
   return (

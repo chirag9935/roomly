@@ -1,0 +1,151 @@
+/* ============================================================
+   RoommatePreferences.module.css
+   ============================================================ */
+
+.page {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-12);
+  width: 100%;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  text-decoration: none;
+  margin-bottom: var(--sp-6);
+  transition: color var(--ease-fast);
+}
+.back:hover { color: var(--ink); }
+.back:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; border-radius: 2px; }
+
+.header {
+  margin-bottom: var(--sp-8);
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--border);
+}
+
+.title { margin-bottom: var(--sp-2); }
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--graphite);
+}
+
+/* ── Form card ───────────────────────────────────────────────── */
+.formCard {
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-8);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.formSectionTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--graphite);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+/* ── Lifestyle option cards ──────────────────────────────────── */
+.optionGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.optionCard {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  background: var(--chalk);
+  transition: border-color var(--ease-fast), color var(--ease-fast), background var(--ease-fast);
+  user-select: none;
+}
+
+.optionCard input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.optionCard:hover {
+  border-color: var(--rust);
+  color: var(--ink);
+}
+
+.optionCard:has(input:checked) {
+  border-color: var(--rust);
+  color: var(--rust);
+  background: rgba(192, 67, 26, 0.04);
+  font-weight: 500;
+}
+
+.optionEmoji {
+  font-size: 16px;
+}
+
+/* ── Actions ─────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: var(--sp-3);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--border);
+}
+
+.actions .btn {
+  min-width: 160px;
+  justify-content: center;
+}
+
+/* ── Loading skeleton ────────────────────────────────────────── */
+.loadingState {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6);
+  width: 100%;
+}
+
+.skeletonTitle { height: 32px; width: 50%; border-radius: var(--radius); margin-bottom: var(--sp-4); }
+.skeletonBlock { height: 48px; border-radius: var(--radius); margin-bottom: var(--sp-3); }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .page { padding: var(--sp-5) var(--sp-4) var(--sp-8); }
+  .formCard { padding: var(--sp-5); }
+  .row2 { grid-template-columns: 1fr; }
+  .actions { flex-direction: column; }
+  .actions .btn { width: 100%; }
+}

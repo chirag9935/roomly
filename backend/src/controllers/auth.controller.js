@@ -1,8 +1,36 @@
 const bcrypt = require('bcrypt');
-const { createUser, findUserByEmail } = require('../models/user.model');
-const { generateToken } = require('../utils/jwt');
+const { createUser, findUserByEmail, findUserById } = require('../models/user.model');
+const { generateToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 
 const SALT_ROUNDS = 10;
+
+const ACCESS_COOKIE = 'token';
+const REFRESH_COOKIE = 'refreshToken';
+
+const isProd = process.env.NODE_ENV === 'production';
+
+const accessCookieOptions = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: 'strict',
+  maxAge: 15 * 60 * 1000, // 15 minutes — matches JWT_EXPIRY in utils/jwt.js
+};
+
+const refreshCookieOptions = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: 'strict',
+  path: '/api/auth', // only sent to auth endpoints
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+function setAuthCookies(res, user) {
+  const token = generateToken({ id: user.id, role: user.role });
+  const refreshToken = generateRefreshToken({ id: user.id, role: user.role });
+
+  res.cookie(ACCESS_COOKIE, token, accessCookieOptions);
+  res.cookie(REFRESH_COOKIE, refreshToken, refreshCookieOptions);
+}
 
 async function signup(req, res, next) {
     try {
@@ -30,9 +58,9 @@ async function signup(req, res, next) {
         const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
         const user = await createUser({ name, email, passwordHash, role, phone, gender });
 
-        const token = generateToken({ id: user.id, role: user.role });
+        setAuthCookies(res, user);
 
-        res.status(201).json({ success: true, user, token });
+        res.status(201).json({ success: true, user });
     } catch (err) {
         next(err);
     }
@@ -62,13 +90,63 @@ async function login(req, res, next) {
             throw err;
         }
 
-        const token = generateToken({ id: user.id, role: user.role });
-
         delete user.password_hash; // never send this back
-        res.status(200).json({ success: true, user, token });
+
+        setAuthCookies(res, user);
+
+        res.status(200).json({ success: true, user });
     } catch (err) {
         next(err);
     }
 }
 
-module.exports = { signup, login };
+// GET /api/auth/me — lets the frontend verify/restore a session on page load
+// instead of trusting whatever is cached in localStorage.
+async function me(req, res, next) {
+    try {
+        const user = await findUserById(req.user.id);
+        if (!user) {
+            const err = new Error('User not found');
+            err.statusCode = 404;
+            throw err;
+        }
+        res.status(200).json({ success: true, user });
+    } catch (err) {
+        next(err);
+    }
+}
+
+// POST /api/auth/refresh — exchanges a valid refresh token for a new access token.
+async function refresh(req, res, next) {
+    try {
+        const refreshToken = req.cookies[REFRESH_COOKIE];
+        if (!refreshToken) {
+            const err = new Error('No refresh token provided');
+            err.statusCode = 401;
+            throw err;
+        }
+
+        const decoded = verifyRefreshToken(refreshToken);
+        const user = await findUserById(decoded.id);
+        if (!user) {
+            const err = new Error('User not found');
+            err.statusCode = 401;
+            throw err;
+        }
+
+        setAuthCookies(res, user);
+        res.status(200).json({ success: true, user });
+    } catch (err) {
+        err.statusCode = err.statusCode || 401;
+        err.message = err.message || 'Invalid or expired refresh token';
+        next(err);
+    }
+}
+
+async function logout(req, res) {
+    res.clearCookie(ACCESS_COOKIE, accessCookieOptions);
+    res.clearCookie(REFRESH_COOKIE, refreshCookieOptions);
+    res.status(200).json({ success: true, message: 'Logged out' });
+}
+
+module.exports = { signup, login, me, refresh, logout };

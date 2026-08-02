@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 import { createListing } from '../api/listings';
+import styles from './ListingForm.module.css';
 
 function CreateListing() {
   const [formData, setFormData] = useState({
@@ -41,36 +42,178 @@ function CreateListing() {
   }
 
   return (
-    <div>
-      <h2>Create Listing</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
-        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
-        <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} required />
-        <input type="text" name="area" placeholder="Area" value={formData.area} onChange={handleChange} required />
-        <input type="number" name="rent" placeholder="Rent (₹/month)" value={formData.rent} onChange={handleChange} required />
+    <div className={styles.page}>
+      <Link to="/my-listings" className={styles.back}>← My listings</Link>
 
-        <select name="occupancyType" value={formData.occupancyType} onChange={handleChange}>
-          <option value="single">Single</option>
-          <option value="double">Double</option>
-          <option value="triple">Triple</option>
-          <option value="dormitory">Dormitory</option>
-        </select>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Create a new listing</h1>
+        <p className={styles.subtitle}>
+          Add your PG details. You can edit or update the status any time after posting.
+        </p>
+      </div>
 
-        <select name="genderPreference" value={formData.genderPreference} onChange={handleChange}>
-          <option value="any">Any</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
+      <div className={styles.formCard}>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
 
-        <input type="text" name="amenities" placeholder="Amenities (comma separated: wifi, laundry, ac)" value={formData.amenities} onChange={handleChange} />
-        <textarea name="houseRules" placeholder="House Rules" value={formData.houseRules} onChange={handleChange} />
+          {/* ── Location & basics ── */}
+          <div className={styles.formSection}>
+            <h2 className={styles.formSectionTitle}>Location &amp; basics</h2>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Listing'}
-        </button>
-      </form>
+            <div className="form-group">
+              <label className="form-label" htmlFor="cl-title">Listing title</label>
+              <input
+                id="cl-title"
+                className="form-input"
+                type="text"
+                name="title"
+                placeholder="e.g. Bright single room near IT Park, Whitefield"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className={styles.row2}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="cl-city">City</label>
+                <input
+                  id="cl-city"
+                  className="form-input"
+                  type="text"
+                  name="city"
+                  placeholder="Bangalore"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="cl-area">Area / neighbourhood</label>
+                <input
+                  id="cl-area"
+                  className="form-input"
+                  type="text"
+                  name="area"
+                  placeholder="Whitefield"
+                  value={formData.area}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ── Room details ── */}
+          <div className={styles.formSection}>
+            <h2 className={styles.formSectionTitle}>Room details</h2>
+
+            <div className={styles.row2}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="cl-rent">Rent per month (₹)</label>
+                <input
+                  id="cl-rent"
+                  className="form-input"
+                  type="number"
+                  name="rent"
+                  placeholder="8000"
+                  value={formData.rent}
+                  onChange={handleChange}
+                  required
+                  min="0"
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="cl-occupancy">Occupancy type</label>
+                <select
+                  id="cl-occupancy"
+                  className="form-select"
+                  name="occupancyType"
+                  value={formData.occupancyType}
+                  onChange={handleChange}
+                >
+                  <option value="single">Single</option>
+                  <option value="double">Double</option>
+                  <option value="triple">Triple</option>
+                  <option value="dormitory">Dormitory</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cl-gender">Gender preference</label>
+              <select
+                id="cl-gender"
+                className="form-select"
+                name="genderPreference"
+                value={formData.genderPreference}
+                onChange={handleChange}
+              >
+                <option value="any">Any (no preference)</option>
+                <option value="male">Male only</option>
+                <option value="female">Female only</option>
+              </select>
+            </div>
+          </div>
+
+          {/* ── Description & rules ── */}
+          <div className={styles.formSection}>
+            <h2 className={styles.formSectionTitle}>Description &amp; rules</h2>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cl-description">About this PG</label>
+              <textarea
+                id="cl-description"
+                className="form-textarea"
+                name="description"
+                placeholder="Describe the space, the neighbourhood, nearby transport, and what makes this a good place to live…"
+                value={formData.description}
+                onChange={handleChange}
+                style={{ minHeight: '120px' }}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cl-amenities">Amenities</label>
+              <input
+                id="cl-amenities"
+                className="form-input"
+                type="text"
+                name="amenities"
+                placeholder="wifi, laundry, AC, parking, hot water…"
+                value={formData.amenities}
+                onChange={handleChange}
+              />
+              <p className={styles.hint}>Comma-separated list. These appear as tags on your listing.</p>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="cl-rules">House rules</label>
+              <textarea
+                id="cl-rules"
+                className="form-textarea"
+                name="houseRules"
+                placeholder="No smoking indoors, guests by prior notice, quiet hours after 10 pm…"
+                value={formData.houseRules}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          {error && <p className="form-error" role="alert">{error}</p>}
+
+          <div className={styles.actions}>
+            <button
+              id="create-listing-btn"
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Creating…' : 'Create listing'}
+            </button>
+            <Link to="/my-listings" className="btn btn-subtle">Cancel</Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

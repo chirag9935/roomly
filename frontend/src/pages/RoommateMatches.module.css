@@ -1,0 +1,194 @@
+/* ============================================================
+   RoommateMatches.module.css
+   ============================================================ */
+
+.page {
+  flex: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-12);
+  width: 100%;
+}
+
+/* ── Page header ─────────────────────────────────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-8);
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.headerText {}
+
+.pageTitle {
+  margin-bottom: var(--sp-2);
+}
+
+.pageSubtitle {
+  font-size: var(--text-base);
+  color: var(--graphite);
+  max-width: 480px;
+}
+
+/* ── Matches grid ────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-5);
+}
+
+/* ── Match card ──────────────────────────────────────────────── */
+.matchCard {
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--bar-active); /* always green for a match */
+  border-radius: var(--radius);
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  transition:
+    border-left-width var(--ease-std),
+    transform var(--ease-std),
+    box-shadow var(--ease-std);
+}
+
+.matchCard:hover {
+  border-left-width: 5px;
+  transform: translateX(2px);
+  box-shadow: 0 2px 12px rgba(26, 23, 20, 0.06);
+}
+
+/* ── Card header: avatar + name ──────────────────────────────── */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.nameBlock {}
+
+.matchName {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.matchCity {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  margin-top: 2px;
+}
+
+/* ── Budget ──────────────────────────────────────────────────── */
+.budget {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--rust);
+  font-weight: 400;
+}
+
+.budgetLabel {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--graphite);
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Traits row ──────────────────────────────────────────────── */
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.trait {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--graphite);
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 3px 8px;
+}
+
+/* ── Bio ─────────────────────────────────────────────────────── */
+.bio {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  line-height: 1.6;
+  font-style: italic;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--stone);
+}
+
+/* ── Contact ─────────────────────────────────────────────────── */
+.contact {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--stone);
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contactEmail {
+  color: var(--rust);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* ── Skeleton ────────────────────────────────────────────────── */
+.skeletonCard {
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.skeletonAvatar { width: 44px; height: 44px; border-radius: 50%; }
+.skeletonName   { height: 20px; width: 55%; border-radius: var(--radius); }
+.skeletonMeta   { height: 14px; width: 40%; border-radius: var(--radius); }
+.skeletonLine   { height: 13px; border-radius: var(--radius); }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .page { padding: var(--sp-5) var(--sp-4) var(--sp-8); }
+  .grid { grid-template-columns: 1fr; gap: var(--sp-4); }
+  .pageHeader { flex-direction: column; }
+}

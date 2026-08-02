@@ -1,0 +1,193 @@
+/* ============================================================
+   Auth.module.css — shared by Login and Signup
+   ============================================================ */
+
+/* ── Page layout ─────────────────────────────────────────────── */
+.page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-12) var(--sp-6);
+  min-height: calc(100svh - 60px);
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-10) var(--sp-8);
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.header {
+  text-align: center;
+  margin-bottom: var(--sp-8);
+}
+
+.brandMark {
+  font-family: var(--font-display);
+  font-size: var(--text-brand);
+  color: var(--ink);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--sp-5);
+  letter-spacing: -0.3px;
+}
+
+.brandDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--rust);
+  position: relative;
+  top: 1px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--ink);
+  font-weight: 400;
+  margin-bottom: var(--sp-2);
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  line-height: 1.5;
+}
+
+/* ── Form ────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+}
+
+/* ── Role selector (Signup) ──────────────────────────────────── */
+.roleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.roleLabel {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+.roleOptions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.roleOption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color var(--ease-fast), background var(--ease-fast);
+  background: var(--chalk);
+  user-select: none;
+}
+
+.roleOption:hover {
+  border-color: var(--rust);
+  background: var(--stone);
+}
+
+.roleOption input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.roleOption:has(input:checked) {
+  border-color: var(--rust);
+  background: rgba(192, 67, 26, 0.04);
+}
+
+.roleIcon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.roleTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.roleDesc {
+  font-size: var(--text-xs);
+  color: var(--graphite);
+  line-height: 1.4;
+}
+
+/* ── Submit button ───────────────────────────────────────────── */
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: var(--text-base);
+  justify-content: center;
+  margin-top: var(--sp-2);
+}
+
+/* ── Footer link ─────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  margin-top: var(--sp-6);
+  font-size: var(--text-sm);
+  color: var(--graphite);
+}
+
+/* ── Divider ─────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--sp-6) 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .page {
+    align-items: flex-start;
+    padding: var(--sp-6) var(--sp-4);
+  }
+
+  .card {
+    padding: var(--sp-6) var(--sp-5);
+    border: none;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    max-width: 100%;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .roleOptions {
+    grid-template-columns: 1fr;
+  }
+}

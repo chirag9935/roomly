@@ -1,0 +1,257 @@
+/* ============================================================
+   ListingDetail.module.css
+   ============================================================ */
+
+.page {
+  flex: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6) var(--sp-12);
+  width: 100%;
+}
+
+/* ── Back link ───────────────────────────────────────────────── */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  text-decoration: none;
+  margin-bottom: var(--sp-6);
+  transition: color var(--ease-fast);
+}
+.back:hover { color: var(--ink); }
+.back:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; border-radius: 2px; }
+
+/* ── Main layout ─────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+/* ── Image placeholder ───────────────────────────────────────── */
+.heroImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-6);
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+/* ── Content left ────────────────────────────────────────────── */
+.content {}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.location {
+  font-size: var(--text-base);
+  color: var(--graphite);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metaChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 4px 10px;
+}
+
+/* ── Section block ───────────────────────────────────────────── */
+.section {
+  margin-bottom: var(--sp-8);
+}
+
+.sectionTitle {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--graphite);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.description {
+  font-size: var(--text-base);
+  color: var(--graphite);
+  line-height: 1.75;
+}
+
+.amenitiesList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: 0;
+}
+
+.amenityItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-sm);
+  color: var(--status-active-text);
+  background: var(--status-active-bg);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────── */
+.sidebar {
+  position: sticky;
+  top: 80px;
+}
+
+.sideCard {
+  background: var(--chalk);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.priceBlock {
+  border-bottom: 1px solid var(--stone);
+  padding-bottom: var(--sp-5);
+}
+
+.priceAmount {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--rust);
+  font-weight: 400;
+  line-height: 1;
+  display: block;
+}
+
+.priceLabel {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  margin-top: var(--sp-1);
+  display: block;
+}
+
+.sideActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sideActions .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+}
+
+.ownerNote {
+  font-size: var(--text-sm);
+  color: var(--graphite);
+  line-height: 1.5;
+  padding: var(--sp-3);
+  background: var(--stone);
+  border-radius: var(--radius);
+}
+
+/* ── Loading skeleton ────────────────────────────────────────── */
+.skeletonPage {
+  flex: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: var(--sp-8) var(--sp-6);
+  width: 100%;
+}
+
+.skeletonHero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  margin-bottom: var(--sp-6);
+}
+
+.skeletonTitle { height: 36px; width: 60%; border-radius: var(--radius); margin-bottom: var(--sp-3); }
+.skeletonMeta  { height: 18px; width: 40%; border-radius: var(--radius); margin-bottom: var(--sp-6); }
+.skeletonBody  { height: 14px; border-radius: var(--radius); margin-bottom: var(--sp-2); }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .sideCard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-5);
+  }
+
+  .priceBlock {
+    border-bottom: none;
+    padding-bottom: 0;
+    border-right: 1px solid var(--border);
+    padding-right: var(--sp-5);
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: var(--sp-5) var(--sp-4) var(--sp-8);
+  }
+
+  .sideCard {
+    grid-template-columns: 1fr;
+  }
+
+  .priceBlock {
+    border-right: none;
+    border-bottom: 1px solid var(--stone);
+    padding-right: 0;
+    padding-bottom: var(--sp-4);
+  }
+}
