@@ -6,6 +6,13 @@ import Home from './pages/Home';
 import ListingDetail from './pages/ListingDetail';
 import CreateListing from './pages/CreateListing';
 import ProtectedRoute from './components/ProtectedRoute';
+import MyListings from './pages/MyListings';
+import EditListing from './pages/EditListing';
+import RoommatePreferences from './pages/RoommatePreferences';
+import RoommateMatches from './pages/RoommateMatches';
+import SendInquiry from './pages/SendInquiry';
+import MyInquiries from './pages/MyInquiries';
+import ReceivedInquiries from './pages/ReceivedInquiries';
 
 function App() {
   return (
@@ -19,6 +26,41 @@ function App() {
         <Route path="/create-listing" element={
           <ProtectedRoute allowedRoles={['owner']}>
             <CreateListing />
+          </ProtectedRoute>
+        } />
+        <Route path="/my-listings" element={
+          <ProtectedRoute allowedRoles={['owner']}>
+            <MyListings />
+          </ProtectedRoute>
+        } />
+        <Route path="/edit-listing/:id" element={
+          <ProtectedRoute allowedRoles={['owner']}>
+            <EditListing />
+          </ProtectedRoute>
+        } />
+        <Route path="/roommate-preferences" element={
+          <ProtectedRoute>
+            <RoommatePreferences />
+          </ProtectedRoute>
+        } />
+        <Route path="/roommate-matches" element={
+          <ProtectedRoute>
+            <RoommateMatches />
+          </ProtectedRoute>
+        } />
+        <Route path="/send-inquiry/:listingId" element={
+          <ProtectedRoute allowedRoles={['seeker']}>
+            <SendInquiry />
+          </ProtectedRoute>
+        } />
+        <Route path="/my-inquiries" element={
+          <ProtectedRoute allowedRoles={['seeker']}>
+            <MyInquiries />
+          </ProtectedRoute>
+        } />
+        <Route path="/inquiries" element={
+          <ProtectedRoute allowedRoles={['owner']}>
+            <ReceivedInquiries />
           </ProtectedRoute>
         } />
       </Routes>
