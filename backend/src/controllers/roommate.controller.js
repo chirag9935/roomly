@@ -6,7 +6,8 @@ async function setPreferences(req, res, next) {
       budgetMin, budgetMax, preferredCity, sleepSchedule, foodHabit, cleanlinessLevel, bio
     } = req.body;
 
-    if (!budgetMin || !budgetMax || !preferredCity || !sleepSchedule) {
+    const missingBudget = budgetMin === undefined || budgetMin === null || budgetMax === undefined || budgetMax === null;
+    if (missingBudget || !preferredCity || !sleepSchedule) {
       const err = new Error('budgetMin, budgetMax, preferredCity, and sleepSchedule are required');
       err.statusCode = 400;
       throw err;

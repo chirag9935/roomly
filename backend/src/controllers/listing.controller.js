@@ -10,7 +10,7 @@ async function create(req, res, next) {
             genderPreference, amenities, photoUrls, houseRules
         } = req.body;
 
-        if (!title || !city || !area || !rent || !occupancyType) {
+        if (!title || !city || !area || rent === undefined || rent === null || !occupancyType) {
             const err = new Error('title, city, area, rent, and occupancyType are required');
             err.statusCode = 400;
             throw err;
