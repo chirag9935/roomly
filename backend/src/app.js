@@ -10,18 +10,6 @@ const app = express();
 
 app.use(helmet());
 
-// ── Global rate limiter ─────────────────────────────────────────
-// Applies to every route. Auth-specific limiters (in auth.routes.js)
-// are stricter and layer on top of this for login/signup.
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 300,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { success: false, message: 'Too many requests, please slow down' },
-});
-app.use(globalLimiter);
-
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
@@ -32,6 +20,10 @@ if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
 
+// CORS must run before the rate limiter (and any other middleware that can
+// short-circuit a request) so that rate-limited/errored responses still carry
+// CORS headers — otherwise the browser reports a misleading "CORS error"
+// instead of the real cause (e.g. 429 Too Many Requests).
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests without an Origin header
@@ -51,6 +43,19 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// ── Global rate limiter ─────────────────────────────────────────
+// Applies to every route. Auth-specific limiters (in auth.routes.js)
+// are stricter and layer on top of this for login/signup.
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests, please slow down' },
+});
+app.use(globalLimiter);
+
 app.use(express.json());
 app.use(cookieParser());
 
