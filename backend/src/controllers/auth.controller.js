@@ -12,16 +12,16 @@ const isProd = process.env.NODE_ENV === 'production';
 const accessCookieOptions = {
   httpOnly: true,
   secure: isProd,
-  sameSite: 'strict',
-  maxAge: 15 * 60 * 1000, // 15 minutes — matches JWT_EXPIRY in utils/jwt.js
+  sameSite: isProd ? 'none' : 'lax',
+  maxAge: 15 * 60 * 1000,
 };
 
 const refreshCookieOptions = {
   httpOnly: true,
   secure: isProd,
-  sameSite: 'strict',
-  path: '/api/auth', // only sent to auth endpoints
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  sameSite: isProd ? 'none' : 'lax',
+  path: '/api/auth',
+  maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
 function setAuthCookies(res, user) {
