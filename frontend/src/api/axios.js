@@ -7,6 +7,19 @@ const api = axios.create({
 
 
 let isRefreshing = false;
+// Requests that arrive with a 401 while a refresh is already in flight are
+// queued here instead of being silently rejected — they get replayed (or
+// rejected together) once the in-flight refresh settles.
+let refreshSubscribers = [];
+
+function subscribeTokenRefresh(cb) {
+  refreshSubscribers.push(cb);
+}
+
+function onRefreshSettled(refreshErr) {
+  refreshSubscribers.forEach((cb) => cb(refreshErr));
+  refreshSubscribers = [];
+}
 
 // Endpoints where a 401 must never trigger a nested refresh attempt or the
 // hard redirect below — /auth/refresh, /auth/login etc. failing is a normal
@@ -34,15 +47,33 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry && !isRefreshing && !matchesPath(originalRequest, NO_REFRESH_PATHS)) {
+    if (error.response?.status === 401 && !originalRequest._retry && !matchesPath(originalRequest, NO_REFRESH_PATHS)) {
       originalRequest._retry = true;
+
+      // A refresh is already in flight (e.g. several requests 401'd at once
+      // on page load) — queue this request instead of rejecting it outright,
+      // so it gets retried (or rejected) once that refresh settles.
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          subscribeTokenRefresh((refreshErr) => {
+            if (refreshErr) {
+              reject(refreshErr);
+            } else {
+              resolve(api(originalRequest));
+            }
+          });
+        });
+      }
+
       isRefreshing = true;
       try {
         await api.post('/auth/refresh');
         isRefreshing = false;
+        onRefreshSettled(null);
         return api(originalRequest); // retry the original request with the new cookie
       } catch (refreshErr) {
         isRefreshing = false;
+        onRefreshSettled(refreshErr);
         if (!matchesPath(originalRequest, NO_REDIRECT_PATHS)) {
           window.location.href = '/login';
         }

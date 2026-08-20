@@ -37,7 +37,9 @@ app.use(cors({
     }
 
     console.log('CORS blocked origin:', origin);
-    return callback(new Error(`CORS blocked: ${origin}`));
+    const corsErr = new Error(`CORS blocked: ${origin}`);
+    corsErr.statusCode = 403;
+    return callback(corsErr);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
